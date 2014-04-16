@@ -1,0 +1,25 @@
+!!! 5
+%html{:lang=>"en"}
+  %head
+    %meta{:charset => "UTF-8"}
+    %title
+    = yield :title
+
+    = yield :styles
+
+    = csrf_meta_tag
+  %body
+    = yield
+
+    = yield :scripts
+
+    :javascript
+      if (typeof jQuery !== 'undefined') {
+        $(document).ready(function() {
+          $.ajaxSetup({
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+            }
+          });
+        });
+      }
